@@ -35,52 +35,31 @@
 //  * @param {number} n
 //  * @return {ListNode}
 //  */
-var removeNthFromEnd = function(head, n) {      // NEED TO CHANGE HOW COUNTER IS COUNTING THE # OF NODES FROM TAIL!!
-    //     if (n == 1 && head.next == null) {
-    //         head = null;
-    //         return head
-    //     };
-        
-    //     if (n == 1 && head.next.next == null) {
-    //         head.next = null;
-    //         return head
-    //     };
-        
-        let counter = 0;
-        if (checkNthNode(head, n, counter)) {
-            deleteNode(head);
+var removeNthFromEnd = function(head, n) {
+    // console.log("head: ", head)
+    // console.log("")
+    
+    if (n == 1 && head.next == null) {
+        return false
+    
+    } else if (n > 1) {
+        n--;
+        if (!removeNthFromEnd(head.next, n)) {   // call recursively until returns true
+            return head.next
+            
         } else {
-            removeNthFromEnd(head.next, n)
+            n++;
         };
-        return head
+
+        let prevNode = head;
+        let nextNode = removeNthFromEnd(head.next, n);
+        console.log("hi")
+        prevNode.next = nextNode;
+        
+        
+    } else if (n == 1 && head.next) {
+        return true  
     };
     
-    
-    function checkNthNode(node, n, counter) {    
-        if (counter < n) {
-            counter++;
-            if (node.next) {
-               checkNthNode(node.next, n, counter) 
-            } else {
-                return true
-            } 
-        };
-        
-        if (counter == n && node.next) {         
-            return false
-        } else {   
-            return true
-        };
-    }
-        
-    
-    function deleteNode(node) {
-        if (node.next == null) {
-            node.val = null;    
-        } else if (node.next.next) {
-            deleteNode(node.next)
-        } else {
-            node.val = node.next.val;
-            node.next = null;
-        };
-    }
+    return head
+};
