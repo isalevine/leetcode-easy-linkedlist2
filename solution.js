@@ -37,29 +37,41 @@
 //  */
 var removeNthFromEnd = function(head, n) {
     // console.log("head: ", head)
+    // console.log("n: ", n)
     // console.log("")
-    
-    if (n == 1 && head.next == null) {
-        return false
-    
-    } else if (n > 1) {
-        n--;
-        if (!removeNthFromEnd(head.next, n)) {   // call recursively until returns true
-            return head.next
-            
-        } else {
-            n++;
-        };
 
-        let prevNode = head;
-        let nextNode = removeNthFromEnd(head.next, n);
-        console.log("hi")
-        prevNode.next = nextNode;
+    
+    if (recursiveCheck(head, n)) {          // true
+        // console.log("hi")
+        // delete
         
+    } else {                                // false
+        removeNthFromEnd(head.next, n)   
+    }
+
+    
+
+    
+    // return head
+};
+
+
+function recursiveCheck(head, n) {
+    // console.log("head: ", head)
+    // console.log("n: ", n)
+    // console.log("")    
+    let matchFound = false;
+    
+    if (n > 1) {                                // continue iterating down n, and check next node
+        matchFound = recursiveCheck(head.next, n - 1);
         
-    } else if (n == 1 && head.next) {
-        return true  
+    } else if (n == 1 && head.next == null) {   // originally-called head is correct!
+        // console.log("CORRECT NODE FOUND! DELETE IT!!")
+        return true
+        
+    } else if (n == 1 && head.next) {           // originally-called head is wrong...
+        return false
     };
     
-    return head
-};
+    return matchFound;
+}
